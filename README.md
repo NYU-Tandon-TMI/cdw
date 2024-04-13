@@ -1,17 +1,17 @@
 # cdw machine reading
 
-## Project Overview
-"cdw machine reading" is a project that utilizes Document AI to extract key information from PDF files and integrates it to visualize transportation routes for building material recycling using the Streamlit library. This project aims to optimize the recycling process of construction waste, enhance resource utilization, and promote sustainable building practices.
+"cdw machine reading" leverages Document AI's integrated OCR technology to directly extract essential information from PDF documents, enabling the visualization of transportation routes for the recycling of building materials using the Streamlit library.
+
+## Preprocessing
+This project addresses the challenge of extracting data from PDFs that feature complex layouts and diverse data presentations. Utilizing the advanced OCR capabilities inherent in Document AI, our system can accurately parse and extract pertinent information, thereby enhancing the accuracy and efficiency of data processing without relying solely on traditional OCR methods.
 
 ## Features
-- **Document Parsing**: Automatically identify and extract key information from various PDF file formats using Document AI technology.
-- **Data Integration**: Clean and integrate extracted data to ensure accuracy and usability.
-- **Route Planning**: Plot optimal transportation routes for the recycling of building materials using data processed and visualized through Streamlit.
-- **Interactive Visualization**: An interactive interface created with Streamlit allows users to view and adjust transportation routes in real time, as well as perform live data analysis.
-- **CRUD Operations**: Users can create, read, update, and delete data entries directly within the web interface, offering full control over the data displayed and analyzed.
-- **Report Generation**: Users can generate detailed reports on transportation and recycling activities for further analysis and documentation.
+- **Advanced Data Extraction**: With Document AI's OCR technology, the system parses PDFs to extract key data points effectively.
+- **Seamless Data Integration**: After extraction, data is seamlessly integrated, setting the stage for effective visualization.
+- **Interactive Route Visualization**: Using Streamlit, the project offers mapping and visualization of recycling transportation routes.
+- **CRUD Operations through Web Interface**: The application features a Streamlit-based web interface that allows for comprehensive data management through CRUD operations.
+- **Detailed Custom Reporting**: The system provides tools for users to create in-depth, customizable reports that enhance informed decision-making in recycling logistics.
 
-## Installation Guide
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/
+## Project link
+The project can be found here:
+https://github.com/NYU-Tandon-TMI/cdw
