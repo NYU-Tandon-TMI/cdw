@@ -17,10 +17,10 @@ The project can be found here:
 https://github.com/NYU-Tandon-TMI/cdw
 
 ## Current Progress
-**Rui Xue (Introduction):** Try building a better project page with github pages. Having some difficulties with it so far with Jekyll-theme.
-**Yanfeng Xu (Dashboard):** Work on the dashboard building and CDW flows mapping. The previous team's chart relied on manually processed and cleaned data, unlike ours.
-**Tianyi Wu (File Upload):** Test Gemini+Google Map method. An update is expected to be made within a few days.
-**Ruoan Ni (Database):**  Optimizing the dadabae page.The functionality of the interface has been initially completed.
+- **Rui Xue (Introduction):** Try building a better project page with github pages. Having some difficulties with it so far with Jekyll-theme.
+- **Yanfeng Xu (Dashboard):** Work on the dashboard building and CDW flows mapping. The previous team's chart relied on manually processed and cleaned data, unlike ours.
+- **Tianyi Wu (File Upload):** Test Gemini+Google Map method. An update is expected to be made within a few days.
+- **Ruoan Ni (Database):**  Optimizing the dadabae page.The functionality of the interface has been initially completed.
 
 ## Recent Updates 04/09
 Initial completion of page build.
