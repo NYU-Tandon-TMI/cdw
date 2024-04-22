@@ -1,121 +1,73 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-from urllib.error import URLError
-
+import streamlit as st
 import pandas as pd
 import pydeck as pdk
 
-import streamlit as st
-from streamlit.hello.utils import show_code
+st.title('DDC Mapping Program')
 
+file_url = 'https://raw.githubusercontent.com/bronzekillervan/ddc/main/cdw_csv_sample.csv'
 
-def mapping_demo():
-    @st.cache_data
-    def from_data_file(filename):
-        url = (
-            "https://raw.githubusercontent.com/streamlit/"
-            "example-data/master/hello/v1/%s" % filename
-        )
-        return pd.read_json(url)
+def draw_routes(df):
+    valid_routes = df.dropna(subset=['pickup_lat', 'pickup_lng', 'receiving_lat', 'receiving_lng'])
 
-    try:
-        ALL_LAYERS = {
-            "Generator": pdk.Layer(
-                "HexagonLayer",
-                data=from_data_file("bike_rental_stats.json"),
-                get_position=["lon", "lat"],
-                radius=200,
-                elevation_scale=4,
-                elevation_range=[0, 1000],
-                extruded=True,
-            ),
-            "Receiver": pdk.Layer(
-                "ScatterplotLayer",
-                data=from_data_file("bart_stop_stats.json"),
-                get_position=["lon", "lat"],
-                get_color=[200, 30, 0, 160],
-                get_radius="[exits]",
-                radius_scale=0.05,
-            ),
-             "Transporter": pdk.Layer(
-                "ScatterplotLayer",
-                data=from_data_file("bart_stop_stats.json"),
-                get_position=["lon", "lat"],
-                get_color=[200, 30, 0, 160],
-                get_radius="[exits]",
-                radius_scale=0.05,
-            ),
-            "Waste Quantity": pdk.Layer(
-                "TextLayer",
-                data=from_data_file("bart_stop_stats.json"),
-                get_position=["lon", "lat"],
-                get_text="name",
-                get_color=[0, 0, 0, 200],
-                get_size=10,
-                get_alignment_baseline="'bottom'",
-            ),
-            "City": pdk.Layer(
-                "TextLayer",
-                data=from_data_file("bart_stop_stats.json"),
-                get_position=["lon", "lat"],
-                get_text="name",
-                get_color=[0, 0, 0, 200],
-                get_size=10,
-                get_alignment_baseline="'bottom'",
-            ),
+    routes = [
+        {
+            "from_coordinates": [row['pickup_lng'], row['pickup_lat']],
+            "to_coordinates": [row['receiving_lng'], row['receiving_lat']],
+            "info": ("<b>Type of Debris:</b> {type_debris}<br>"
+                     "<b>Waste Quantity:</b> {waste_quantity}<br>"
+                     "<b>Pickup Name:</b> {pickup_name}<br>"
+                     "<b>Pickup Address:</b> {pickup_address}<br>"
+                     "<b>Generator Name:</b> {generator_name}<br>"
+                     "<b>Generator Address:</b> {generator_address}").format(
+                         type_debris=row['type_debris'],
+                         waste_quantity=row['waste_quantity'],
+                         pickup_name=row['pickup_name'],
+                         pickup_address=row['pickup_address'],
+                         generator_name=row['generator_name'],
+                         generator_address=row['generator_address']
+                     )
         }
-        st.sidebar.markdown("### Map Layers")
-        selected_layers = [
-            layer
-            for layer_name, layer in ALL_LAYERS.items()
-            if st.sidebar.checkbox(layer_name, True)
-        ]
-        if selected_layers:
-            st.pydeck_chart(
-                pdk.Deck(
-                    map_style=None,
-                    initial_view_state={
-                        "latitude": 40.7487,
-                        "longitude": -73.9863,
-                        "zoom": 11,
-                        "pitch": 50,
-                    },
-                    layers=selected_layers,
-                )
-            )
-        else:
-            st.error("Please choose at least one layer above.")
-    except URLError as e:
-        st.error(
-            """
-            **This demo requires internet access.**
-            Connection error: %s
-        """
-            % e.reason
-        )
+        for _, row in valid_routes.iterrows()
+    ]
+
+    layer = pdk.Layer(
+        "ArcLayer",
+        routes,
+        get_source_position="from_coordinates",
+        get_target_position="to_coordinates",
+        get_width=5,
+        get_tilt=15,
+        get_color=[255, 182, 193, 255], 
+        pickable=True,
+        auto_highlight=True,
+    )
+
+    view_state = pdk.ViewState(
+        latitude=valid_routes['pickup_lat'].mean(),
+        longitude=valid_routes['pickup_lng'].mean(),
+        zoom=6
+    )
+
+    tooltip = {
+        "html": "{info}",  
+        "style": {
+            "backgroundColor": "pink",
+            "color": "white"
+        }
+    }
+
+    st.pydeck_chart(pdk.Deck(
+        layers=[layer],
+        initial_view_state=view_state,
+        tooltip=tooltip,
+        map_style='mapbox://styles/mapbox/light-v10'
+    ))
+
+df = pd.read_csv(file_url)
+
+if {'type_debris', 'waste_quantity', 'pickup_lat', 'pickup_lng', 'receiving_lat', 'receiving_lng', 'pickup_name', 'pickup_address', 'generator_name', 'generator_address'}.issubset(df.columns):
+    draw_routes(df)
+else:
+    st.error('Column not found.')
 
 
-st.set_page_config(page_title="Mapping Demo", page_icon="🌍")
-st.markdown("# CDW Mapping Demo")
-st.sidebar.header("CDW Mapping Demo")
-#st.write(
-#    """This demo shows how to use
-#[`st.pydeck_chart`](https://docs.streamlit.io/library/api-reference/charts/st.pydeck_chart)
-#to display geospatial data."""
-#)
-
-mapping_demo()
-
-#show_code(mapping_demo)
