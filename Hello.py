@@ -38,7 +38,7 @@ def run():
     
     st.title('About Us')
     team_members = [
-        {"name": "Yanfeng Xu", "role": "JIRA", "linkedin": "https://www.linkedin.com/in/yanfeng-xu-734698239/", "email": "yx3104@nyu.edu", "image_path": "https://github.com/NYU-Tandon-TMI/cdw/blob/main/photo/dafd981f824bd141907fffc9e97830b.jpg"},
+        {"name": "Yanfeng Xu", "role": "JIRA", "linkedin": "https://www.linkedin.com/in/yanfeng-xu-734698239/", "email": "yx3104@nyu.edu", "image_path": "photo/dafd981f824bd141907fffc9e97830b.jpg"},
         {"name": "Tianyi Wu", "role": "Email Communication", "linkedin": "https://www.linkedin.com/in/tianyi-wu-b558a51a3/", "email": "tw2709@nyu.edu", "image_path": "https://github.com/NYU-Tandon-TMI/cdw/blob/main/photo/7fdac96ee1bacd291591efe1155f5dd.jpg"},
         {"name": "Ruoan Ni", "role": "Meeting Notes", "linkedin": "https://www.linkedin.com/in/ruoan-ni-97815424b/", "email": "rn2429@nyu.edu", "image_path": "https://github.com/NYU-Tandon-TMI/cdw/blob/main/photo/8720019c766d7e9d3c85f13aa935398.jpg"},
         {"name": "Rui Xue", "role": "Meeting Moderator", "linkedin": "https://www.linkedin.com/in/rui-xue-b854731a4/", "email": "rx2161@nyu.edu", "image_path": "photo/27d8bbc6a5cd97de219a03a26ec8cb6.jpg"}
