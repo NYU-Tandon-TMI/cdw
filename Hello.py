@@ -34,7 +34,7 @@ def run():
     ### How to use this web?
     """)
 
-    video_path = "/workspaces/test/vi.mp4"
+    video_path = "1460f3423218914babc94c5a3505768a.mp4"
     st.video(video_path)
 
     
