@@ -13,9 +13,9 @@ This project addresses the challenge of extracting data from PDFs that feature c
 ## Project link
 The project can be found here:
 https://github.com/NYU-Tandon-TMI/cdw
+
 Alternative link:
 https://github.com/TianyiWuNYU/MOT_Capstone_CDW
-
 
 The web application can be accessed here:
 https://nyc-ddc-cdw.streamlit.app/
