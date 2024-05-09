@@ -13,6 +13,8 @@ This project addresses the challenge of extracting data from PDFs that feature c
 ## Project link
 The project can be found here:
 https://github.com/NYU-Tandon-TMI/cdw
+
+
 The web application can be accessed here:
 https://cdw-web-app-demo.streamlit.app/
 
