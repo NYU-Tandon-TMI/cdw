@@ -1,4 +1,4 @@
-# cdw machine reading
+# CDW + Machine Reading
 
 "cdw machine reading" leverages Document AI's integrated OCR technology to directly extract essential information from PDF documents, enabling the visualization of transportation routes for the recycling of building materials using the Streamlit library.
 
