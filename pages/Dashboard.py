@@ -4,70 +4,73 @@ import pydeck as pdk
 
 st.title('DDC Mapping Program')
 
-file_url = 'https://raw.githubusercontent.com/bronzekillervan/ddc/main/cdw_csv_sample.csv'
+df = pd.read_csv('data/cdw_csv_processed_example.csv', encoding='unicode_escape')
 
-def draw_routes(df):
-    valid_routes = df.dropna(subset=['pickup_lat', 'pickup_lng', 'receiving_lat', 'receiving_lng'])
+st.write("Data loaded successfully!")
 
-    routes = [
-        {
-            "from_coordinates": [row['pickup_lng'], row['pickup_lat']],
-            "to_coordinates": [row['receiving_lng'], row['receiving_lat']],
-            "info": ("<b>Type of Debris:</b> {type_debris}<br>"
-                     "<b>Waste Quantity:</b> {waste_quantity}<br>"
-                     "<b>Pickup Name:</b> {pickup_name}<br>"
-                     "<b>Pickup Address:</b> {pickup_address}<br>"
-                     "<b>Generator Name:</b> {generator_name}<br>"
-                     "<b>Generator Address:</b> {generator_address}").format(
-                         type_debris=row['type_debris'],
-                         waste_quantity=row['waste_quantity'],
-                         pickup_name=row['pickup_name'],
-                         pickup_address=row['pickup_address'],
-                         generator_name=row['generator_name'],
-                         generator_address=row['generator_address']
-                     )
-        }
-        for _, row in valid_routes.iterrows()
-    ]
+unique_debris_types = ['All types of debris'] + list(df['type_debris'].unique())
+selected_debris = st.selectbox('Select Type of Debris:', unique_debris_types)
 
-    layer = pdk.Layer(
-        "ArcLayer",
-        routes,
-        get_source_position="from_coordinates",
-        get_target_position="to_coordinates",
-        get_width=5,
-        get_tilt=15,
-        get_color=[255, 182, 193, 255], 
-        pickable=True,
-        auto_highlight=True,
-    )
+unique_pickup_addresses = ['All pickup addresses'] + list(df['pickup_address'].unique())
+selected_pickup_address = st.selectbox('Select Pickup Address:', unique_pickup_addresses)
 
-    view_state = pdk.ViewState(
-        latitude=valid_routes['pickup_lat'].mean(),
-        longitude=valid_routes['pickup_lng'].mean(),
-        zoom=6
-    )
+unique_receiving_addresses = ['All receiving addresses'] + list(df['receiving_address'].unique())
+selected_receiving_address = st.selectbox('Select Receiving Address:', unique_receiving_addresses)
 
-    tooltip = {
-        "html": "{info}",  
-        "style": {
-            "backgroundColor": "pink",
-            "color": "white"
-        }
-    }
+pickup_color = st.color_picker('Choose a color for pickup addresses', '#FF6347')  
+receiving_color = st.color_picker('Choose a color for receiving addresses', '#4682B4')  
 
-    st.pydeck_chart(pdk.Deck(
-        layers=[layer],
-        initial_view_state=view_state,
-        tooltip=tooltip,
-        map_style='mapbox://styles/mapbox/light-v10'
-    ))
+filtered_data = df[
+    ((df['type_debris'] == selected_debris) | (selected_debris == 'All types of debris')) &
+    ((df['pickup_address'] == selected_pickup_address) | (selected_pickup_address == 'All pickup addresses')) &
+    ((df['receiving_address'] == selected_receiving_address) | (selected_receiving_address == 'All receiving addresses'))
+]
 
-df = pd.read_csv(file_url)
+def draw_routes(filtered_data, pickup_color, receiving_color):
+    if not filtered_data.empty:
+        routes = [
+            {
+                "from_coordinates": [row['pickup_lng'], row['pickup_lat']],
+                "to_coordinates": [row['receiving_lng'], row['receiving_lat']],
+                "info": f"Type of Debris: {row['type_debris']}<br>"
+                        f"Waste Quantity: {row['waste_quantity']}<br>"
+                        f"Pickup Name: {row['pickup_name']}<br>"
+                        f"Pickup Address: {row['pickup_address']}<br>"
+                        f"Receiving Name: {row['receiving_name']}<br>"
+                        f"Receiving Address: {row['receiving_address']}"
+            }
+            for _, row in filtered_data.iterrows()
+        ]
 
-if {'type_debris', 'waste_quantity', 'pickup_lat', 'pickup_lng', 'receiving_lat', 'receiving_lng', 'pickup_name', 'pickup_address', 'generator_name', 'generator_address'}.issubset(df.columns):
-    draw_routes(df)
-else:
-    st.error('Column not found.')
+        pickup_color_rgba = [int(pickup_color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4)] + [255]
+        receiving_color_rgba = [int(receiving_color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4)] + [255]
 
+        layer = pdk.Layer(
+            "ArcLayer",
+            routes,
+            get_source_position="from_coordinates",
+            get_target_position="to_coordinates",
+            get_width=5,
+            get_tilt=15,
+            get_source_color=pickup_color_rgba,
+            get_target_color=receiving_color_rgba,
+            pickable=True,
+            auto_highlight=True,
+        )
 
+        view_state = pdk.ViewState(
+            latitude=filtered_data['pickup_lat'].mean(),
+            longitude=filtered_data['pickup_lng'].mean(),
+            zoom=6
+        )
+
+        st.pydeck_chart(pdk.Deck(
+            layers=[layer],
+            initial_view_state=view_state,
+            tooltip={"html": "<b>Route Information:</b> {info}"},
+            map_style='mapbox://styles/mapbox/light-v10'
+        ))
+    else:
+        st.error('No routes found for the selected options.')
+
+draw_routes(filtered_data, pickup_color, receiving_color)
