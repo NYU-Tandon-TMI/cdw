@@ -16,7 +16,7 @@ https://github.com/NYU-Tandon-TMI/cdw
 
 
 The web application can be accessed here:
-https://cdw-web-app-demo.streamlit.app/
+https://nyc-ddc-cdw.streamlit.app/
 
 ## Recent Updates 05/08
 Initial completion of page build.
