@@ -33,16 +33,16 @@ def run():
     This project is part of a long-term collaboration between New York University (NYU) and the New York City Department of Design and Construction (DDC). This collaboration is embodied in the Town+Gown platform, a city-wide applied research platform designed to connect practitioners, including New York City organizations, with academics. Through this platform, students in NYU's Master of Science in Technology Management and Innovation program are able to engage in real-world research on urban problems and provide innovative solutions.
     ### How to use this web?
     """)
-
-    video_path = "1460f3423218914babc94c5a3505768a.mp4"
+    
+    video_path = "video/Introduction.mp4"
     st.video(video_path)
     
     st.title('About Us')
     team_members = [
-        {"name": "Yanfeng Xu", "role": "JIRA", "linkedin": "https://www.linkedin.com/in/yanfeng-xu-734698239/", "email": "yx3104@nyu.edu", "image_path": "photo/dafd981f824bd141907fffc9e97830b.jpg"},
-        {"name": "Tianyi Wu", "role": "Email Communication", "linkedin": "https://www.linkedin.com/in/tianyi-wu-b558a51a3/", "email": "tw2709@nyu.edu", "image_path": "photo/7fdac96ee1bacd291591efe1155f5dd.jpg"},
-        {"name": "Ruoan Ni", "role": "Meeting Notes", "linkedin": "https://www.linkedin.com/in/ruoan-ni-97815424b/", "email": "rn2429@nyu.edu", "image_path": "photo/8720019c766d7e9d3c85f13aa935398.jpg"},
-        {"name": "Rui Xue", "role": "Meeting Moderator", "linkedin": "https://www.linkedin.com/in/rui-xue-b854731a4/", "email": "rx2161@nyu.edu", "image_path": "photo/27d8bbc6a5cd97de219a03a26ec8cb6.jpg"}
+        {"name": "Yanfeng Xu", "role": "JIRA", "linkedin": "https://www.linkedin.com/in/yanfeng-xu-734698239/", "email": "yx3104@nyu.edu", "image_path": "photo/YanfengXu.jpg"},
+        {"name": "Tianyi Wu", "role": "Email Communication", "linkedin": "https://www.linkedin.com/in/tianyi-wu-b558a51a3/", "email": "tw2709@nyu.edu", "image_path": "photo/TianyiWu.jpg"},
+        {"name": "Ruoan Ni", "role": "Meeting Notes", "linkedin": "https://www.linkedin.com/in/ruoan-ni-97815424b/", "email": "rn2429@nyu.edu", "image_path": "photo/RuoanNi.jpg"},
+        {"name": "Rui Xue", "role": "Meeting Moderator", "linkedin": "https://www.linkedin.com/in/rui-xue-b854731a4/", "email": "rx2161@nyu.edu", "image_path": "photo/RuiXue.jpg"}
     ]
 
     cols = st.columns(4)
@@ -57,8 +57,8 @@ def run():
         return f'<a target="_blank" href="{link}">{text}</a>'
 
     df['linkedin'] = df.apply(lambda x: make_clickable(x['linkedin'], 'LinkedIn'), axis=1)
-    df['email'] = df.apply(lambda x: make_clickable(f"mailto:{x['email']}", x['email']), axis=1)
-    df = df[['name', ''role', 'email', 'linkedin']]
+    df['email'] = df.apply(lambda x: make_clickable(f"mailto:{x['email']}", x['email']),axis=1)
+    df = df[['name', 'role', 'email', 'linkedin']]
     st.title("Connect with us")
     st.write("If you have any problems, please connect with us!")
     st.markdown(df.to_html(escape=False, index=False), unsafe_allow_html=True)
