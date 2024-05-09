@@ -2,7 +2,7 @@
 
 "cdw machine reading" leverages Document AI's integrated OCR technology to directly extract essential information from PDF documents, enabling the visualization of transportation routes for the recycling of building materials using the Streamlit library.
 
-## Preprocessing
+## Introduction
 This project addresses the challenge of extracting data from PDFs that feature complex layouts and diverse data presentations. Utilizing the advanced OCR capabilities inherent in Document AI, our system can accurately parse and extract pertinent information, thereby enhancing the accuracy and efficiency of data processing without relying solely on traditional OCR methods.
 
 ## Features
