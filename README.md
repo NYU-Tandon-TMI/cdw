@@ -5,6 +5,8 @@ This project leverages Document AI's integrated OCR technology to directly extra
 ## Introduction
 This project addresses the challenge of extracting data from PDFs that feature complex layouts and diverse data presentations. Utilizing the advanced OCR capabilities inherent in Document AI, our system can accurately parse and extract pertinent information, thereby enhancing the accuracy and efficiency of data processing without relying solely on traditional OCR methods.
 
+![alt text](structure.png "Title")
+
 ## Features
 - **Advanced Data Extraction**: With Document AI's OCR technology, the system parses PDFs to extract key data points effectively.
 - **Seamless Data Integration**: After extraction, data is seamlessly integrated, setting the stage for effective visualization.
