@@ -7,8 +7,8 @@ This is the toolbox of our project, basically including all the programs and not
 
 For the use of GCP tools, you can check the documentation:
 
-**A Simple Guide on GCP Tools**
+*A Simple Guide on GCP Tools*
 
 For the preliminary analysis of the waste tracking documents, you can check the documentation:
 
-**Document Analysis**
+*Document Analysis*
